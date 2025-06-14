@@ -1,9 +1,10 @@
-import subprocess
 from pathlib import Path
+import pyfiglet
 
 def test_bue_output():
-    font_path = Path(__file__).resolve().parent.parent / 'bbs.flf'
-    result = subprocess.run(['figlet', '-f', str(font_path), 'BUE'], capture_output=True, text=True)
-    assert result.returncode == 0
-    expected = Path('ascii.txt').read_text()
-    assert result.stdout == expected
+    base_dir = Path(__file__).resolve().parent
+    font_path = base_dir.parent / 'bbs'
+    fig = pyfiglet.Figlet(font=str(font_path))
+    output = fig.renderText('BUE')
+    expected = (base_dir.parent / 'ascii.txt').read_text()
+    assert output.rstrip() == expected.rstrip()
